@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:next_byte/auth/login_screen.dart';
+import 'package:next_byte/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: LoginScreen(),
+      home: const SplashScreen(),
       //initialRoute: LoginScreen.routeName,
       routes: {
         //LoginScreen.routeName: (context) => const LoginScreen(),
