@@ -12,6 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  simple_circular_progress_bar:
+  get:
+  intl:
+  image_picker:
 
 
 dev_dependencies:
@@ -23,6 +27,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/
     - assets/logos/
 
   fonts:

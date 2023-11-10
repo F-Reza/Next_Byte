@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:next_byte/screens/splash_screen.dart';
 
 void main() {
@@ -11,17 +12,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Next_Byte',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
       ),
       home: const SplashScreen(),
-      //initialRoute: LoginScreen.routeName,
-      // routes: {
-      //   LoginScreen.routeName: (context) => const LoginScreen(),
-      // },
+      /*initialRoute: SplashScreen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => const LoginScreen(),
+      },*/
     );
   }
 }

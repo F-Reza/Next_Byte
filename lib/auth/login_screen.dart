@@ -1,11 +1,13 @@
 
-//static const String routeName = '/login';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:next_byte/auth/signup_screen.dart';
 import 'package:next_byte/utilities/constants.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String routeName = '/login';
   const LoginScreen({super.key});
 
   @override
@@ -168,6 +170,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildLoadingBtn() {
+    return const SimpleCircularProgressBar(
+      progressColors: [
+        Colors.greenAccent,
+        Colors.blueAccent,
+        Colors.redAccent,
+        Colors.orangeAccent,
+      ],
+      animationDuration: 3,
+      backColor: Colors.white38,
+    );
+  }
+
   Widget _buildSignInWithText() {
     return const Column(
       children: <Widget>[
@@ -238,9 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign Up Button Pressed');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const SignupScreen(),
-        ));
+        Get.to(const SignupScreen());
       },
       child: RichText(
         text: const TextSpan(

@@ -23,7 +23,7 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 final kBoxDecorationStyle1 = BoxDecoration(
-  color: const Color(0xFFC99D9D),
+  color: Colors.white54,
   borderRadius: BorderRadius.circular(10.0),
   boxShadow: const [
     BoxShadow(

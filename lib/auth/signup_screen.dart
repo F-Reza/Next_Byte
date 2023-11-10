@@ -1,11 +1,16 @@
 
-//static const String routeName = '/login';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/utilities/constants.dart';
 
 class SignupScreen extends StatefulWidget {
+  static const String routeName = '/signup';
   const SignupScreen({super.key});
 
   @override
@@ -19,6 +24,11 @@ class _SignupScreenState extends State<SignupScreen> {
   final mobileController = TextEditingController();
   final passwordController = TextEditingController();
 
+  String? _dob;
+  String? _genderGroupValue;
+  String? _imagePath;
+  ImageSource _imageSource = ImageSource.camera;
+
 
   @override
   void dispose() {
@@ -27,6 +37,83 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
+  Widget _buildProfileImage() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: kBoxDecorationStyle1,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 15,),
+          Card(
+            elevation: 10,
+            child: _imagePath == null ?
+            Image.asset('assets/images/person.png',height: 160, width: 150,fit: BoxFit.cover,) :
+            Image.file(File(_imagePath!),height: 160, width: 150,fit: BoxFit.cover,),
+          ),
+          const SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                  onPressed: (){
+                    _imageSource = ImageSource.camera;
+                    _getImage();
+                  },
+                  icon: const Icon(Icons.camera),
+                  label: const Text('Camera')),
+              TextButton.icon(
+                  onPressed: (){
+                    _imageSource = ImageSource.gallery;
+                    _getImage();
+                  },
+                  icon: const Icon(Icons.photo),
+                  label: const Text('Gallery')),
+            ],
+          ),
+          const SizedBox(height: 15,),
+        ],
+      ),
+    );
+  }
+  Widget _buildSelectGender() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Select Gender: ',style: kLabelStyle,),
+        Radio<String>(
+          value: 'Male',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Male'),
+        Radio<String>(
+          value: 'Female',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Female'),
+      ],
+    );
+  }
+  Widget _buildDOB() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(onPressed: _selectDate,
+            child: const Text('Select Date of Birth: ', style: TextStyle(fontSize: 16),)),
+        Text(_dob == null ? 'No Date Selected' : _dob!)
+      ],
+    );
+  }
 
   Widget _buildNameTF() {
     return Column(
@@ -190,7 +277,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: const Text(
           'SIGN UP',
           style: TextStyle(
-            color: Color(0xFFEF144E),
+            color: Color(0xFFE32C63),
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -205,8 +292,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign In Button Pressed');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const LoginScreen(),));
+        Get.to(const LoginScreen());
       },
       child: RichText(
         text: const TextSpan(
@@ -265,19 +351,18 @@ class _SignupScreenState extends State<SignupScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 120.0,
+                    vertical: 60.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      //Image.asset('assets/logos/logo.png', width: 120,),
                       const Text('Next Byte',style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'OpenSans',
                         fontSize: 36.0,
                         fontWeight: FontWeight.bold,
                       ),),
-                      const SizedBox(height: 10,),
+                      const SizedBox(height: 5,),
                       const Text(
                         'Create New Account',
                         style: TextStyle(
@@ -288,10 +373,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       const SizedBox(height: 30.0),
+                      _buildProfileImage(),
+                      const SizedBox(height: 20.0),
                       _buildNameTF(),
+                      const SizedBox(height: 10.0),
                       _buildEmailTF(),
+                      const SizedBox(height: 10.0),
                       _buildMobileTF(),
+                      const SizedBox(height: 10.0),
                       _buildPasswordTF(),
+                      const SizedBox(height: 10.0),
+                      _buildSelectGender(),
+                      const SizedBox(height: 10.0),
+                      _buildDOB(),
+                      const SizedBox(height: 5.0),
                       _buildSignUpBtn(),
                       _buildSignInBtn(),
                     ],
@@ -305,6 +400,29 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+
+  void _selectDate() async {
+    final selectedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now());
+    if (selectedDate != null) {
+      setState(() {
+        _dob = DateFormat('dd/MM/yyyy').format(selectedDate);
+      });
+    }
+  }
+
+  void _getImage() async {
+    final selectedImage = await ImagePicker()
+        .pickImage(source: _imageSource);
+    if(selectedImage!=null){
+      setState((){
+        _imagePath = selectedImage.path;
+      });
+    }
+  }
 
 
 }
