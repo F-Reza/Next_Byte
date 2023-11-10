@@ -14,6 +14,19 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
 
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final mobileController = TextEditingController();
+  final passwordController = TextEditingController();
+
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
 
   Widget _buildNameTF() {
     return Column(
@@ -26,15 +39,16 @@ class _SignupScreenState extends State<SignupScreen> {
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: const TextField(
+          child: TextField(
+            controller: nameController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -61,15 +75,16 @@ class _SignupScreenState extends State<SignupScreen> {
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: const TextField(
+          child: TextField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -96,15 +111,16 @@ class _SignupScreenState extends State<SignupScreen> {
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: const TextField(
+          child: TextField(
+            controller: mobileController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -131,15 +147,16 @@ class _SignupScreenState extends State<SignupScreen> {
         const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: const TextField(
+          child: TextField(
+            controller: passwordController,
             obscureText: true,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
@@ -173,7 +190,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: const Text(
           'SIGN UP',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Color(0xFFEF144E),
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -233,10 +250,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                      Color(0xFFEA2F71),
+                      Color(0xFFEF215F),
+                      Color(0xFFE0114F),
+                      Color(0xFFEE114B),
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),
@@ -254,13 +271,19 @@ class _SignupScreenState extends State<SignupScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       //Image.asset('assets/logos/logo.png', width: 120,),
-                      //const SizedBox(height: 10,),
+                      const Text('Next Byte',style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'OpenSans',
+                        fontSize: 36.0,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                      const SizedBox(height: 10,),
                       const Text(
                         'Create New Account',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
-                          fontSize: 30.0,
+                          fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
