@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 
 class NewContact extends StatefulWidget {
@@ -215,7 +216,7 @@ class _NewContactState extends State<NewContact> {
   }
 
   void _saveContactInfo() async {
-    if (formKey.currentState!.validate()) {
+    /*if (formKey.currentState!.validate()) {
       final contact = ContactModel(
         name: nameController.text,
         number: numberController.text,
@@ -234,7 +235,7 @@ class _NewContactState extends State<NewContact> {
       }else{
         
       }
-    }
+    }*/
   }
 
 

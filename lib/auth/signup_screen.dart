@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:next_byte/auth/login_screen.dart';
-import 'package:next_byte/utilities/constants.dart';
+import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/utils/constants.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String routeName = '/signup';
@@ -23,6 +24,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController();
   final mobileController = TextEditingController();
   final passwordController = TextEditingController();
+
+  var authController = AuthController.instanceAuth;
 
   String? _dob;
   String? _genderGroupValue;
@@ -57,8 +60,9 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               TextButton.icon(
                   onPressed: (){
-                    _imageSource = ImageSource.camera;
-                    _getImage();
+                    //_imageSource = ImageSource.camera;
+                    authController.getImageFromGallery();
+                    //_getImage();
                   },
                   icon: const Icon(Icons.camera),
                   label: const Text('Camera')),

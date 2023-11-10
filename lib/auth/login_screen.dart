@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/auth/signup_screen.dart';
-import 'package:next_byte/utilities/constants.dart';
+import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class LoginScreen extends StatefulWidget {
