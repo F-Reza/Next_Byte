@@ -7,8 +7,6 @@ import 'package:intl/intl.dart';
 
 
 class NewContact extends StatefulWidget {
-  static const String routeName = '/new';
-
   const NewContact({Key? key}) : super(key: key);
 
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:next_byte/auth/login_screen.dart';
 class SplashScreen extends StatefulWidget {
-  static const String routeName = '/splash';
   const SplashScreen({super.key});
 
   @override

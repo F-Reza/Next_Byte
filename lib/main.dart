@@ -37,10 +37,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       home: const SplashScreen(),
-      /*initialRoute: SplashScreen.routeName,
-      routes: {
-        LoginScreen.routeName: (context) => const LoginScreen(),
-      },*/
     );
   }
 }

@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AuthController extends GetxController {
-  static AuthController instanceAuth = Get.find();
+class AuthenticationController extends GetxController {
+  static AuthenticationController instanceAuth = Get.find();
 
   late Rx<File?> _pickedImage;
   File? get profileImage => _pickedImage.value;

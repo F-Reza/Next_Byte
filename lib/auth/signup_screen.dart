@@ -11,7 +11,6 @@ import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/utils/constants.dart';
 
 class SignupScreen extends StatefulWidget {
-  static const String routeName = '/signup';
   const SignupScreen({super.key});
 
   @override
@@ -25,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final mobileController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var authController = AuthController.instanceAuth;
+  //var authController = AuthenticationController.instanceAuth;
 
   String? _dob;
   String? _genderGroupValue;
@@ -35,7 +34,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
+    mobileController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -60,9 +61,9 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               TextButton.icon(
                   onPressed: (){
-                    //_imageSource = ImageSource.camera;
-                    authController.getImageFromGallery();
-                    //_getImage();
+                    _imageSource = ImageSource.camera;
+                    //authController.getImageFromGallery();
+                    _getImage();
                   },
                   icon: const Icon(Icons.camera),
                   label: const Text('Camera')),

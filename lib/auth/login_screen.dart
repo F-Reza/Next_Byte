@@ -7,7 +7,6 @@ import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routeName = '/login';
   const LoginScreen({super.key});
 
   @override

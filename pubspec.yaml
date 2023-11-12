@@ -1,7 +1,6 @@
 name: next_byte
 description: Next_Byte A Video Sharing Flutter App. using Firebase and Firestore Video Hosting as Backend.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
 
 environment:
@@ -19,18 +18,18 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   firebase_storage:
+  firebase_messaging:
   http:
   url_launcher:
-  flutter_easyloading:
+  #flutter_easyloading:
   google_sign_in:
-  carousel_slider:
-  shared_preferences:
-  fluttertoast:
+  #carousel_slider:
+  #shared_preferences:
   image_picker:
-  intl_phone_number_input:
-  pinput:
-  pin_code_fields:
-  flutter_launcher_icons:
+  #intl_phone_number_input:
+  #pinput:
+  #pin_code_fields:
+  #flutter_launcher_icons:
 
 
 dev_dependencies:
@@ -41,6 +40,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
   assets:
     - assets/images/
     - assets/logos/
@@ -49,4 +49,3 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/OpenSans.ttf
-
