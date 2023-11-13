@@ -1,3 +1,4 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyDRxg_xSDERMd2veMer4QySnAVnl212jYk",
-            authDomain: "next-byte.firebaseapp.com",
-            projectId: "next-byte",
-            storageBucket: "next-byte.appspot.com",
-            messagingSenderId: "634713349445",
-            appId: "1:634713349445:web:a64fbf804da490d959722c",
-            measurementId: "G-VMGDVZV379")
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDRxg_xSDERMd2veMer4QySnAVnl212jYk",
+          authDomain: "next-byte.firebaseapp.com",
+          projectId: "next-byte",
+          storageBucket: "next-byte.appspot.com",
+          messagingSenderId: "634713349445",
+          appId: "1:634713349445:web:a64fbf804da490d959722c",
+          measurementId: "G-VMGDVZV379")
     );
   }else {
     await Firebase.initializeApp();
