@@ -26,7 +26,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<String> updateImage(File file) async {
     final imageName = 'Image_${DateTime.now().millisecondsSinceEpoch}';
-    final photoRef = FirebaseStorage.instance.ref().child('ProfilePictures/$imageName');
+    final photoRef = FirebaseStorage.instance.ref().child('Profile Pictures/$imageName');
     final task = photoRef.putFile(file);
     final snapshot = await task.whenComplete(() => null);
     return snapshot.ref.getDownloadURL();

@@ -282,7 +282,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: const Text(
           'SIGN UP',
           style: TextStyle(
-            color: Color(0xFFE32C63),
+            color: Color(0xFF2C75FD),
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -341,10 +341,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFFEA2F71),
-                      Color(0xFFEF215F),
-                      Color(0xFFE0114F),
-                      Color(0xFFEE114B),
+                      Color(0xFFF1AB5C),
+                      Color(0xFFF3C050),
+                      Color(0xFFE8D242),
+                      Color(0xE8CBA307),
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),
