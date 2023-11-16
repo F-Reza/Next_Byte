@@ -6,28 +6,13 @@ import 'package:get/get.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/screens/splash_screen.dart';
 
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /*if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyDRxg_xSDERMd2veMer4QySnAVnl212jYk",
-          authDomain: "next-byte.firebaseapp.com",
-          projectId: "next-byte",
-          storageBucket: "next-byte.appspot.com",
-          messagingSenderId: "634713349445",
-          appId: "1:634713349445:web:a64fbf804da490d959722c",
-          measurementId: "G-VMGDVZV379")
-    );
-  }else {
-    await Firebase.initializeApp();
-  }*/
-
-  await Firebase.initializeApp().then((value) {
-
-    Get.put(AuthenticationController());
-  });
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

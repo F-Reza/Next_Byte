@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Next_Byte A Video Sharing Flutter App. using Firebase and Firestore Video Hosting as Backend.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,13 +36,11 @@
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
   </script>
-
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
 <body>
-
-<script>
+  <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -45,19 +55,5 @@
       });
     });
   </script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDRxg_xSDERMd2veMer4QySnAVnl212jYk",
-      authDomain: "next-byte.firebaseapp.com",
-      projectId: "next-byte",
-      storageBucket: "next-byte.appspot.com",
-      messagingSenderId: "634713349445",
-      appId: "1:634713349445:web:a64fbf804da490d959722c",
-      measurementId: "G-VMGDVZV379"
-    };
-    const app = initializeApp(firebaseConfig);
-  </script>
-
 </body>
 </html>
