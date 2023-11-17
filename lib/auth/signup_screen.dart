@@ -14,8 +14,9 @@ import 'package:next_byte/auth/firebase_auth.dart';
 import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/models/user_model.dart';
-import 'package:next_byte/screens/launcher_page.dart';
+import 'package:next_byte/screens/launcher_screen.dart';
 import 'package:next_byte/utils/constants.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -25,7 +26,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
+  Size? size;
   var authController = AuthController.instanceAuth;
 
   final nameController = TextEditingController();
@@ -33,6 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final mobileController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool isUploading = false, isSaving = false;
   bool isObscureText = true;
   final formKey = GlobalKey<FormState>();
   String? _dob;
@@ -59,10 +61,23 @@ class _SignupScreenState extends State<SignupScreen> {
         children: [
           const SizedBox(height: 15,),
           Card(
-            elevation: 10,
+            //elevation: 10,
             child: _imagePath == null ?
+            isUploading? const SizedBox(
+              child: SimpleCircularProgressBar(
+                progressColors: [
+                  Colors.greenAccent,
+                  Colors.blueAccent,
+                  Colors.redAccent,
+                  Colors.orangeAccent,
+                ],
+                animationDuration: 2,
+                backColor: Colors.white38,
+              ),
+            ) :
             Image.asset('assets/images/person.png',height: 160, width: 150,fit: BoxFit.cover,) :
             Image.file(File(_imagePath!),height: 160, width: 150,fit: BoxFit.cover,),
+            //Image.network(_imagePath!,height: 160, width: 150,fit: BoxFit.cover,),
           ),
           const SizedBox(height: 10,),
           Row(
@@ -94,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('Select Gender: ',style: kLabelStyle,),
+        //const Text('Select Gender: ',style: kLabelStyle,),
         Radio<String>(
           value: 'Male',
           groupValue: _genderGroupValue,
@@ -115,6 +130,16 @@ class _SignupScreenState extends State<SignupScreen> {
           },
         ),
         const Text('Female'),
+        Radio<String>(
+          value: 'Others',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Others'),
       ],
     );
   }
@@ -314,8 +339,8 @@ class _SignupScreenState extends State<SignupScreen> {
       width: double.infinity,
       child: ElevatedButton (
         onPressed: () {
+          _saveUserInfo();
           print('Signup Button Pressed');
-          authenticate();
         },
         style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white38,
@@ -373,6 +398,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -456,37 +482,94 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
 
-  void authenticate()  async{
+  void _saveUserInfo()  async{
     if(formKey.currentState!.validate()) {
-      EasyLoading.show(status: 'Please Wait....', dismissOnTap: false);
-      try {
-        if(await AuthService.register(emailController.text, passwordController.text)){
-          final userModel = UserModel(
-            uid: AuthService.user!.uid,
-            image: _imagePath,
-            name: nameController.text,
-            email: AuthService.user!.email!,
-            mobile: mobileController.text,
-            dob: _dob,
-            gender: _genderGroupValue,
-            userCreationTime: Timestamp.fromDate(AuthService.user!.metadata.creationTime!),
-          );
-          if(!mounted) return;
-          authController.addUser(userModel).then((value) {
-            EasyLoading.dismiss();
-            Get.to(const LauncherScreen());
-            //Navigator.pushNamedAndRemoveUntil(context, LauncherPage.routeName, (route) => false);
-          });
-        }
-      }on FirebaseAuthException catch(e) {
-        print('Error: $e');
 
-        EasyLoading.dismiss();
+
+      if(_genderGroupValue == null){
         Fluttertoast.showToast(
-          msg: 'User already exists',
+          msg: 'Please select your gender',
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white,);
+
+      } else if (_dob == null){
+        Fluttertoast.showToast(
+          msg: 'Please select your date of birth',
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,);
+      }
+      else {
+        EasyLoading.show(status: 'Please Wait....', dismissOnTap: false);
+        try {
+          if(await AuthService.register(emailController.text, passwordController.text)){
+
+            late String? imageUrl;
+
+            if(_imagePath != null){
+              setState(() {
+                isUploading = true;
+              });
+              try {
+                final imageUrlX = await authController.updateImage(XFile(_imagePath!));
+                print('--------Image Upload Completed--------');
+                setState(() {
+                  imageUrl = imageUrlX;
+                  isUploading = false;
+                });
+              } catch(e) {
+                print('Error:-----> $e');
+                Get.snackbar('Network Error', 'Image upload failed!');
+                return null;
+              }
+
+            } else {
+              imageUrl = null;
+            }
+
+            /*late var imageUrl;
+            if(_imagePath != null){
+              setState(() {
+                isUploading = true;
+              });
+              final imageUrlX = await authController.updateImage(XFile(_imagePath!));
+              print('--------Image Upload Completed--------');
+              setState(() {
+                isUploading = false;
+                imageUrl = imageUrlX;
+              });
+            } else {
+              imageUrl = null;
+            }*/
+
+            final userModel = UserModel(
+              uid: AuthService.user!.uid,
+              image: imageUrl,
+              name: nameController.text,
+              email: AuthService.user!.email!,
+              mobile: mobileController.text,
+              dob: _dob,
+              gender: _genderGroupValue,
+              userCreationTime: Timestamp.fromDate(AuthService.user!.metadata.creationTime!),
+            );
+            if(!mounted) return;
+            authController.addUser(userModel).then((value) {
+              EasyLoading.dismiss();
+              Get.to(const LauncherScreen());
+              //Navigator.pushNamedAndRemoveUntil(context, LauncherPage.routeName, (route) => false);
+            });
+          }
+        }on FirebaseAuthException catch(e) {
+          print('Error: ------ > $e');
+
+          EasyLoading.dismiss();
+          Fluttertoast.showToast(
+            msg: 'User already exists',
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,);
+        }
       }
     }
   }
@@ -514,6 +597,30 @@ class _SignupScreenState extends State<SignupScreen> {
       });
     }
   }
+
+
+  /*void _getImage1() async {
+    final selectedImage = await ImagePicker()
+        .pickImage(source: _imageSource);
+    if(selectedImage!=null){
+      setState(() {
+        _imagePath = selectedImage.path;
+        isUploading = true;
+      });
+      try {
+        final url = await authController.updateImage(selectedImage);
+        print('--------Image Upload Completed--------');
+        setState(() {
+          _imagePath = url;
+          isUploading = false;
+        });
+      } catch(e) {
+        print('Error:-----> $e');
+        return null;
+      }
+
+    }
+  }*/
 
 
 }

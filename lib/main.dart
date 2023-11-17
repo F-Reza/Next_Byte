@@ -2,6 +2,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/screens/splash_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
       ),
+      builder: EasyLoading.init(),
       home: const SplashScreen(),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,14 +55,13 @@ class AuthController extends GetxController {
   Future<void> updateProfile(String uid, Map<String, dynamic> map) =>
       DbHelper.updateProfile(uid, map);
 
-  Future<String> updateImage(File file) async {
+  Future<String> updateImage(XFile xFile) async {
     final imageName = 'Image_${DateTime.now().millisecondsSinceEpoch}';
     final photoRef = FirebaseStorage.instance.ref().child('Profile Pictures/$imageName');
-    final task = photoRef.putFile(file);
+    final task = photoRef.putFile(File(xFile.path));
     final snapshot = await task.whenComplete(() => null);
     return snapshot.ref.getDownloadURL();
   }
-
 
 
 
@@ -125,5 +125,12 @@ class AuthController extends GetxController {
 
 
 
+  /*Future<String> updateImage(File file) async {
+    final imageName = 'Image_${DateTime.now().millisecondsSinceEpoch}';
+    final photoRef = FirebaseStorage.instance.ref().child('Profile Pictures/$imageName');
+    final task = photoRef.putFile(file);
+    final snapshot = await task.whenComplete(() => null);
+    return snapshot.ref.getDownloadURL();
+  }*/
 
 }
