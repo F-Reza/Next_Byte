@@ -4,12 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   String uid;
   String? image;
-  String name;
+  String? name;
   String email;
-  String mobile;
-  String password;
-  String dob;
-  String gender;
+  String? mobile;
+  String? dob;
+  String? gender;
   String? facebook;
   String? instagram;
   String? youtube;
@@ -19,12 +18,11 @@ class UserModel {
   UserModel(
       {required this.uid,
       this.image,
-      required this.name,
+      this.name,
       required this.email,
-      required this.mobile,
-      required this.password,
-      required this.dob,
-      required this.gender,
+      this.mobile,
+      this.dob,
+      this.gender,
       this.facebook,
       this.instagram,
       this.youtube,
@@ -38,7 +36,6 @@ class UserModel {
     'name' : name,
     'email' : email,
     'mobile' : mobile,
-    'password' : password,
     'dob' : dob,
     'gender' : gender,
     'facebook' : facebook,
@@ -55,7 +52,6 @@ class UserModel {
    name: map['name'],
    email: map['email'],
    mobile: map['mobile'],
-   password: map['password'],
    dob: map['dob'],
    gender: map['gender'],
    facebook: map['facebook'],

@@ -1,13 +1,20 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:next_byte/auth/firebase_auth.dart';
 import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/models/user_model.dart';
+import 'package:next_byte/screens/launcher_page.dart';
 import 'package:next_byte/utils/constants.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -19,13 +26,15 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
 
+  var authController = AuthController.instanceAuth;
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final mobileController = TextEditingController();
   final passwordController = TextEditingController();
 
-  //var authController = AuthenticationController.instanceAuth;
-
+  bool isObscureText = true;
+  final formKey = GlobalKey<FormState>();
   String? _dob;
   String? _genderGroupValue;
   String? _imagePath;
@@ -133,13 +142,20 @@ class _SignupScreenState extends State<SignupScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: nameController,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Name must not be empty!';
+              } else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -169,13 +185,23 @@ class _SignupScreenState extends State<SignupScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Email must not be empty!';
+              }else if (!value.contains('@')) {
+                return 'Please Enter Valid Email';
+              }
+              else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -205,13 +231,20 @@ class _SignupScreenState extends State<SignupScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: mobileController,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.phone,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Mobile must not be empty!';
+              } else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -241,13 +274,24 @@ class _SignupScreenState extends State<SignupScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle1,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: passwordController,
+            keyboardType: TextInputType.text,
             obscureText: true,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Password must not be empty!';
+              }
+              if (value.length < 6) {
+                return 'Password min 6 character';
+              } else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -269,7 +313,10 @@ class _SignupScreenState extends State<SignupScreen> {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton (
-        onPressed: () => print('Signup Button Pressed'),
+        onPressed: () {
+          print('Signup Button Pressed');
+          authenticate();
+        },
         style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white38,
             backgroundColor: Colors.white,
@@ -358,43 +405,46 @@ class _SignupScreenState extends State<SignupScreen> {
                     horizontal: 40.0,
                     vertical: 60.0,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text('Next Byte',style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'OpenSans',
-                        fontSize: 36.0,
-                        fontWeight: FontWeight.bold,
-                      ),),
-                      const SizedBox(height: 5,),
-                      const Text(
-                        'Create New Account',
-                        style: TextStyle(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text('Next Byte',style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
-                          fontSize: 22.0,
+                          fontSize: 36.0,
                           fontWeight: FontWeight.bold,
+                        ),),
+                        const SizedBox(height: 5,),
+                        const Text(
+                          'Create New Account',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 30.0),
-                      _buildProfileImage(),
-                      const SizedBox(height: 20.0),
-                      _buildNameTF(),
-                      const SizedBox(height: 10.0),
-                      _buildEmailTF(),
-                      const SizedBox(height: 10.0),
-                      _buildMobileTF(),
-                      const SizedBox(height: 10.0),
-                      _buildPasswordTF(),
-                      const SizedBox(height: 10.0),
-                      _buildSelectGender(),
-                      const SizedBox(height: 10.0),
-                      _buildDOB(),
-                      const SizedBox(height: 5.0),
-                      _buildSignUpBtn(),
-                      _buildSignInBtn(),
-                    ],
+                        const SizedBox(height: 30.0),
+                        _buildProfileImage(),
+                        const SizedBox(height: 20.0),
+                        _buildNameTF(),
+                        const SizedBox(height: 10.0),
+                        _buildEmailTF(),
+                        const SizedBox(height: 10.0),
+                        _buildMobileTF(),
+                        const SizedBox(height: 10.0),
+                        _buildPasswordTF(),
+                        const SizedBox(height: 10.0),
+                        _buildSelectGender(),
+                        const SizedBox(height: 10.0),
+                        _buildDOB(),
+                        const SizedBox(height: 5.0),
+                        _buildSignUpBtn(),
+                        _buildSignInBtn(),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -403,6 +453,42 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+
+  void authenticate()  async{
+    if(formKey.currentState!.validate()) {
+      EasyLoading.show(status: 'Please Wait....', dismissOnTap: false);
+      try {
+        if(await AuthService.register(emailController.text, passwordController.text)){
+          final userModel = UserModel(
+            uid: AuthService.user!.uid,
+            image: _imagePath,
+            name: nameController.text,
+            email: AuthService.user!.email!,
+            mobile: mobileController.text,
+            dob: _dob,
+            gender: _genderGroupValue,
+            userCreationTime: Timestamp.fromDate(AuthService.user!.metadata.creationTime!),
+          );
+          if(!mounted) return;
+          authController.addUser(userModel).then((value) {
+            EasyLoading.dismiss();
+            Get.to(const LauncherScreen());
+            //Navigator.pushNamedAndRemoveUntil(context, LauncherPage.routeName, (route) => false);
+          });
+        }
+      }on FirebaseAuthException catch(e) {
+        print('Error: $e');
+
+        EasyLoading.dismiss();
+        Fluttertoast.showToast(
+          msg: 'User already exists',
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,);
+      }
+    }
   }
 
 

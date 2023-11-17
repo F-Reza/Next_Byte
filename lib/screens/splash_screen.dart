@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:next_byte/auth/login_screen.dart';
+import 'package:next_byte/screens/launcher_page.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 2), () {
       // Navigate to the main screen
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => const LauncherScreen(),
       ));
     });
   }

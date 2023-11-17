@@ -1,8 +1,15 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:next_byte/auth/firebase_auth.dart';
 import 'package:next_byte/auth/signup_screen.dart';
+import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/models/user_model.dart';
+import 'package:next_byte/screens/launcher_page.dart';
 import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
@@ -15,9 +22,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  var authController = AuthController.instanceAuth;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  bool isObscureText = true;
+  final formKey = GlobalKey<FormState>();
   bool _rememberMe = false;
 
   @override
@@ -40,13 +50,23 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Email must not be empty!';
+              }else if (!value.contains('@')) {
+                return 'Please Enter Valid Email';
+              }
+              else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -76,19 +96,39 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             controller: passwordController,
-            obscureText: true,
+            obscureText: isObscureText,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
-            decoration: const InputDecoration(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Password must not be empty!';
+              }
+              if (value.length < 6) {
+                return 'Password min 6 character';
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
+              contentPadding: const EdgeInsets.only(top: 14.0),
+              prefixIcon: const Icon(
                 Icons.lock,
                 color: Colors.white,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(isObscureText
+                    ? Icons.visibility_off
+                    : Icons.visibility),
+                onPressed: () {
+                  setState(() {
+                    isObscureText = !isObscureText;
+                  });
+                },
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -103,7 +143,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton (
-        onPressed: () => print('Forgot Password Button Pressed'),
+        onPressed: () {
+          print('Forgot Password Button Pressed');
+          Get.to(const SignupScreen());
+        },
         //padding: const EdgeInsets.only(right: 0.0),
         child: const Text(
           'Forgot Password?',
@@ -145,7 +188,10 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton (
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () {
+          print('Login Button Pressed');
+          authenticate();
+        },
         style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white38,
             backgroundColor: Colors.white,
@@ -238,7 +284,29 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           _buildSocialBtn(
-                () => print('Login with Google'),
+                () {
+                  print('Login with Google');
+                  AuthService.signInWithGoogle().then((credential) async {
+                    if(credential.user != null) {
+                      if(!await authController.doseUserExist(credential.user!.uid)) {
+
+                        EasyLoading.show(status: 'Please Wait....',dismissOnTap: false);
+                        final userModel = UserModel(
+                            uid: AuthService.user!.uid,
+                            image: AuthService.user!.photoURL,
+                            name: credential.user!.displayName,
+                            email: AuthService.user!.email!,
+                            mobile: credential.user!.phoneNumber,
+                            userCreationTime: Timestamp.fromDate(credential.user!.metadata.creationTime!),
+                        );
+                        await authController.addUser(userModel);
+                        EasyLoading.dismiss();
+                      }
+                      Get.to(const LauncherScreen());
+                      //Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+                    }
+                  });
+                },
             const AssetImage(
               'assets/logos/google.jpg',
             ),
@@ -313,33 +381,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      //Image.asset('assets/logos/logo.png', width: 90,),
-                      //const SizedBox(height: 10,),
-                      const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                    ],
+                        const SizedBox(height: 30.0),
+                        _buildEmailTF(),
+                        const SizedBox(height: 30.0,),
+                        _buildPasswordTF(),
+                        _buildForgotPasswordBtn(),
+                        _buildRememberMeCheckbox(),
+                        _buildLoginBtn(),
+                        _buildSignInWithText(),
+                        _buildSocialBtnRow(),
+                        _buildSignupBtn(),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -350,7 +417,29 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
+  void authenticate()  async{
+    if(formKey.currentState!.validate()) {
+      try {
+        final status = await AuthService.login(emailController.text, passwordController.text);
+        if(status) {
+          if(!mounted) return;
+          //Get.toEnd(const SignupScreen());
+          //Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+        }
+      }on FirebaseAuthException catch(e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.orange[900],
+            content: const Text(
+              'Incorrect email or password.',
+              style: TextStyle(fontSize: 18.0),
+            ),
+          ),
+        );
+        print(e.message!);
+      }
+    }
+  }
 
 }
 

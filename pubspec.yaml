@@ -21,8 +21,9 @@ dependencies:
   firebase_messaging:
   http:
   url_launcher:
-  #flutter_easyloading:
   google_sign_in:
+  flutter_easyloading:
+  fluttertoast:
   #carousel_slider:
   #shared_preferences:
   image_picker:
