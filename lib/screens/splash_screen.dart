@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // Simulate a delay before navigating to the main screen
     Future.delayed(const Duration(seconds: 2), () {
       // Navigate to the main screen
-      Get.off(const LauncherScreen());
+      //Get.off(() => const LauncherScreen());
+      Get.offNamed('/auth');
     });
   }
 

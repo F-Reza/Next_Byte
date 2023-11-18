@@ -56,6 +56,11 @@ class AuthService{
   static Future<void> updatePhotoUrl(String url) =>
       _auth.currentUser!.updatePhotoURL(url);
 
+  //Update User Password
+  static Future<void> changePassword(String newPassword) {
+    return _auth.currentUser!.updatePassword(newPassword);
+  }
+
 
 
 }

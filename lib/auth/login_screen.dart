@@ -344,7 +344,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign Up Button Pressed');
-        Get.off(const SignupScreen());
+        //Get.off(() => const SignupScreen());
+        Get.offNamed('/signup');
       },
       child: RichText(
         text: const TextSpan(
@@ -463,9 +464,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.orange[900],
-            content: const Text(
-              'Incorrect email or password.',
-              style: TextStyle(fontSize: 18.0),
+            content: Text(
+                e.message!,
+              style: const TextStyle(fontSize: 18.0),
             ),
           ),
         );

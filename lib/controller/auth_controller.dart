@@ -52,6 +52,9 @@ class AuthController extends GetxController {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserById(String uid) =>
       DbHelper.getUserById(uid);
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserById2(String uid) =>
+      DbHelper.getUserById2(uid);
+
   Future<void> updateProfile(String uid, Map<String, dynamic> map) =>
       DbHelper.updateProfile(uid, map);
 

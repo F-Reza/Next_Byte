@@ -379,7 +379,8 @@ class _SignupScreenState extends State<SignupScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign In Button Pressed');
-        Get.off(const LoginScreen());
+        //Get.off(() => const LoginScreen());
+        Get.offNamed('/login');
       },
       child: RichText(
         text: const TextSpan(
@@ -575,7 +576,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
           EasyLoading.dismiss();
           Fluttertoast.showToast(
-            msg: 'User already exists',
+            msg: 'The email address is already in use by another account.',
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,);
