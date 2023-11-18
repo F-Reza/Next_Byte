@@ -1,12 +1,13 @@
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/screens/splash_screen.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,6 +17,7 @@ void main() async {
   ).then((value) {
     Get.put(AuthController());
   });
+  await Hive.initFlutter();
   runApp(const MyApp());
 }
 

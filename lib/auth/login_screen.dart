@@ -12,6 +12,8 @@ import 'package:next_byte/models/user_model.dart';
 import 'package:next_byte/screens/launcher_screen.dart';
 import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,6 +37,29 @@ class _LoginScreenState extends State<LoginScreen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  late Box box;
+
+  @override
+  void initState() {
+    createBox();
+    super.initState();
+  }
+
+  void createBox() async {
+    box = await Hive.openBox('loginData');
+    getLoginData();
+  }
+
+  void getLoginData() async {
+    if(box.get('email') != null && box.get('password') != null) {
+      emailController.text = box.get('email');
+      passwordController.text = box.get('password');
+      setState(() {
+        _rememberMe = true;
+      });
+    }
   }
 
   Widget _buildEmailTF() {
@@ -145,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: TextButton (
         onPressed: () {
           print('Forgot Password Button Pressed');
-          Get.to(const SignupScreen());
+          Get.to(() => const SignupScreen());
         },
         //padding: const EdgeInsets.only(right: 0.0),
         child: const Text(
@@ -302,8 +327,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await authController.addUser(userModel);
                         EasyLoading.dismiss();
                       }
-                      Get.to(const LauncherScreen());
-                      //Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+                      Get.offAll(() => const LauncherScreen());
                     }
                   });
                 },
@@ -320,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign Up Button Pressed');
-        Get.to(const SignupScreen());
+        Get.off(const SignupScreen());
       },
       child: RichText(
         text: const TextSpan(
@@ -419,12 +443,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void authenticate()  async{
     if(formKey.currentState!.validate()) {
+      if(_rememberMe) {
+        box.put('email', emailController.text);
+        box.put('password', passwordController.text);
+      }
+      if(!_rememberMe) {
+        box.clear();
+        box.delete('loginData');
+      }
+      EasyLoading.show(status: 'Please Wait....', dismissOnTap: false);
       try {
         final status = await AuthService.login(emailController.text, passwordController.text);
         if(status) {
           if(!mounted) return;
-          //Get.toEnd(const SignupScreen());
-          //Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+          EasyLoading.dismiss();
+          Get.offAll(() => const LauncherScreen());
         }
       }on FirebaseAuthException catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -436,7 +469,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         );
-        print(e.message!);
+        EasyLoading.dismiss();
+        print('Error: ------> ${e.message!}');
       }
     }
   }

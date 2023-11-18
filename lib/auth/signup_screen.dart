@@ -302,7 +302,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: TextFormField(
             controller: passwordController,
             keyboardType: TextInputType.text,
-            obscureText: true,
+            obscureText: isObscureText,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -317,12 +317,22 @@ class _SignupScreenState extends State<SignupScreen> {
                 return null;
               }
             },
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
+              contentPadding: const EdgeInsets.only(top: 14.0),
+              prefixIcon: const Icon(
                 Icons.lock,
                 color: Colors.white,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(isObscureText
+                    ? Icons.visibility_off
+                    : Icons.visibility),
+                onPressed: () {
+                  setState(() {
+                    isObscureText = !isObscureText;
+                  });
+                },
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -369,7 +379,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return GestureDetector(
       onTap: () {
         print('Sign In Button Pressed');
-        Get.to(const LoginScreen());
+        Get.off(const LoginScreen());
       },
       child: RichText(
         text: const TextSpan(
@@ -556,7 +566,7 @@ class _SignupScreenState extends State<SignupScreen> {
             if(!mounted) return;
             authController.addUser(userModel).then((value) {
               EasyLoading.dismiss();
-              Get.to(const LauncherScreen());
+              Get.offAll(() => const LauncherScreen());
               //Navigator.pushNamedAndRemoveUntil(context, LauncherPage.routeName, (route) => false);
             });
           }

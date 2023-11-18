@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () async {
                     final navigator = Navigator.of(context);
                     await Future.delayed(Duration.zero);
-                    Get.to(const HomeScreen());
+                    Get.to(() => const HomeScreen());
                   },
                   child: const Text('Home'),
                 ),
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     await Future.delayed(Duration.zero);
 
                     AuthService.logout().then((value) =>
-                      Get.to(const LauncherScreen()),
+                      Get.to(() => const LauncherScreen()),
                     );
                   },
                   child: const Text('Logout'),

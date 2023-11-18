@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:next_byte/screens/launcher_screen.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,9 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Simulate a delay before navigating to the main screen
     Future.delayed(const Duration(seconds: 2), () {
       // Navigate to the main screen
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const LauncherScreen(),
-      ));
+      Get.off(const LauncherScreen());
     });
   }
 

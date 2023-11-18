@@ -19,11 +19,9 @@ class _LauncherScreenState extends State<LauncherScreen> {
   void initState() {
     Future.delayed(Duration.zero,() {
       if(AuthService.user==null){
-        //Navigator.pushReplacementNamed(context, LoginPage.routeName);
-        Get.to(const LoginScreen());
+        Get.offAll(() => const LoginScreen());
       }else {
-        //Navigator.pushReplacementNamed(context, ProductPage.routeName);
-        Get.to(const HomeScreen());
+        Get.offAll(() => const HomeScreen());
 
         print('Login Successfully!');
         Fluttertoast.showToast(

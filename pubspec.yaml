@@ -24,6 +24,8 @@ dependencies:
   google_sign_in:
   flutter_easyloading:
   fluttertoast:
+  hive:
+  hive_flutter:
   #carousel_slider:
   #shared_preferences:
   image_picker:
