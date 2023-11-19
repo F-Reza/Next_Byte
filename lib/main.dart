@@ -13,6 +13,7 @@ import 'package:next_byte/screens/profile_screen.dart';
 import 'package:next_byte/screens/splash_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:next_byte/test.dart';
 import 'firebase_options.dart';
 
 void main() async {

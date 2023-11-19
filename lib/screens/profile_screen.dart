@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/models/model_class.dart';
 import '../auth/firebase_auth.dart';
 import '../models/user_model.dart';
 import '../provider/user_provider.dart';
@@ -25,11 +26,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final textController =TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String? _genderGroupValue;
 
   @override
   void dispose() {
     textController.dispose();
     super.dispose();
+  }
+
+  Widget _buildSelectGender() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        //const Text('Select Gender: ',style: kLabelStyle,),
+        Radio<String>(
+          value: 'Male',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Male'),
+        Radio<String>(
+          value: 'Female',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Female'),
+        Radio<String>(
+          value: 'Others',
+          groupValue: _genderGroupValue,
+          onChanged: (value) {
+            setState(() {
+              _genderGroupValue = value;
+            });
+          },
+        ),
+        const Text('Others'),
+      ],
+    );
   }
 
   @override
@@ -80,11 +122,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 width: 200, height: 200, fit: BoxFit.cover,),
                             ),
                             Positioned(
-                              bottom: 45,
-                              right: 105,
+                              bottom: 40,
+                              right: 100,
                               child: IconButton(
                                   onPressed: _getImage,
-                                  icon: const Icon(Icons.add_a_photo,size: 40,)),
+                                  icon: const Icon(Icons.add_a_photo,size: 40,color: Colors.white,)),
                             ),
                           ],
                         ),
@@ -190,7 +232,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   trailing: IconButton(
                                     icon: const Icon(Icons.edit,color: Colors.blueAccent,),
                                     onPressed: (){
-                                      showInputDialog(
+                                      showInputDialogDoB(
+                                        context: context,
                                           title: 'Gender',
                                           value: userModel.gender,
                                           onSaved: (value) {
@@ -201,6 +244,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     },
                                   ),
                                 ),
+                                //_buildSelectGender(),
+
                                 const SizedBox(height: 50,),
                                 SizedBox(
                                   height: 36,
@@ -460,6 +505,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ));
   }
 
+  showInputDialogDoB1({
+    required String title,
+    String? value,
+    required Function(String) onSaved}) {
+    _genderGroupValue = value ?? '';
+    showDialog(context: context, builder: (context) => AlertDialog(
+      title: Text(title),
+      content: _buildSelectGender(),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            onSaved(_genderGroupValue!);
+            Navigator.pop(context);
+          },
+          child: const Text('UPDATE'),
+        ),
+      ],
+    )
+    );
+  }
 
   showInputDialogPass({
     required String title,
@@ -542,6 +610,100 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-
+  void showInputDialogDoB({
+    required BuildContext context,
+    required String title,
+    String? value,
+    required Function(String) onSaved}) {
+    _genderGroupValue = value ?? '';
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomAlertDialog(
+        title: title,
+        content: _buildSelectGender(),
+        onOkPressed: () {
+          // Perform any action on OK button press
+          onSaved(_genderGroupValue!);
+          print('OK pressed');
+          print('------------> $_genderGroupValue');
+        },
+      ),
+    );
+  }
 
 }
+
+//Custom
+class CustomAlertDialog extends StatefulWidget {
+  final String title;
+  final Function onOkPressed;
+
+  CustomAlertDialog({
+    required this.title,
+    required Widget content,
+    required this.onOkPressed,
+  });
+
+  @override
+  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
+}
+
+class _CustomAlertDialogState extends State<CustomAlertDialog> {
+  String? _genderGroupValue;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(widget.title),
+      content: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //const Text('Select Gender: ',style: kLabelStyle,),
+          Radio<String>(
+            value: 'Male',
+            groupValue: _genderGroupValue,
+            onChanged: (value) {
+              setState(() {
+                _genderGroupValue = value;
+              });
+            },
+          ),
+          const Text('Male'),
+          Radio<String>(
+            value: 'Female',
+            groupValue: _genderGroupValue,
+            onChanged: (value) {
+              setState(() {
+                _genderGroupValue = value;
+              });
+            },
+          ),
+          const Text('Female'),
+          Radio<String>(
+            value: 'Others',
+            groupValue: _genderGroupValue,
+            onChanged: (value) {
+              setState(() {
+                _genderGroupValue = value;
+              });
+            },
+          ),
+          const Text('Others'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+        TextButton(
+          onPressed: () {
+            widget.onOkPressed();
+            Navigator.pop(context);
+          },
+          child: const Text('UPDATE'),
+        ),
+      ],
+    );
+  }
+}
+

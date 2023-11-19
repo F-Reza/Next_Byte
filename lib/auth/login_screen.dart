@@ -439,6 +439,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text('Next Digit', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+      ),
     );
   }
 
