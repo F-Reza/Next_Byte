@@ -11,10 +11,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
-import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/models/user_model.dart';
-import 'package:next_byte/screens/launcher_screen.dart';
 import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
@@ -496,7 +494,6 @@ class _SignupScreenState extends State<SignupScreen> {
   void _saveUserInfo()  async{
     if(formKey.currentState!.validate()) {
 
-
       if(_genderGroupValue == null){
         Fluttertoast.showToast(
           msg: 'Please select your gender',
@@ -539,21 +536,6 @@ class _SignupScreenState extends State<SignupScreen> {
               imageUrl = null;
             }
 
-            /*late var imageUrl;
-            if(_imagePath != null){
-              setState(() {
-                isUploading = true;
-              });
-              final imageUrlX = await authController.updateImage(XFile(_imagePath!));
-              print('--------Image Upload Completed--------');
-              setState(() {
-                isUploading = false;
-                imageUrl = imageUrlX;
-              });
-            } else {
-              imageUrl = null;
-            }*/
-
             final userModel = UserModel(
               uid: AuthService.user!.uid,
               image: imageUrl,
@@ -567,16 +549,18 @@ class _SignupScreenState extends State<SignupScreen> {
             if(!mounted) return;
             authController.addUser(userModel).then((value) {
               EasyLoading.dismiss();
-              Get.offAll(() => const LauncherScreen());
-              //Navigator.pushNamedAndRemoveUntil(context, LauncherPage.routeName, (route) => false);
+              Get.snackbar("Account Created", "Congratulations!, your account has been created.");
+              //Get.offAll(() => const LauncherScreen());
+              Get.offAllNamed('/auth');
             });
           }
         }on FirebaseAuthException catch(e) {
-          print('Error: ------ > $e');
-
+          print('Error: ------> ${e.message!}');
           EasyLoading.dismiss();
+          Get.snackbar("Account Creation Unsuccessful", "Error occurred while creating account. Try Again.");
           Fluttertoast.showToast(
-            msg: 'The email address is already in use by another account.',
+            msg: e.message!,
+            //msg: 'The email address is already in use by another account.',
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,);
@@ -609,29 +593,6 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-
-  /*void _getImage1() async {
-    final selectedImage = await ImagePicker()
-        .pickImage(source: _imageSource);
-    if(selectedImage!=null){
-      setState(() {
-        _imagePath = selectedImage.path;
-        isUploading = true;
-      });
-      try {
-        final url = await authController.updateImage(selectedImage);
-        print('--------Image Upload Completed--------');
-        setState(() {
-          _imagePath = url;
-          isUploading = false;
-        });
-      } catch(e) {
-        print('Error:-----> $e');
-        return null;
-      }
-
-    }
-  }*/
 
 
 }

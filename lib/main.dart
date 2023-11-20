@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:next_byte/auth/launcher_screen.dart';
 import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/auth/signup_screen.dart';
 import 'package:next_byte/controller/auth_controller.dart';
-import 'package:next_byte/screens/home_screen.dart';
-import 'package:next_byte/screens/launcher_screen.dart';
-import 'package:next_byte/screens/profile_screen.dart';
-import 'package:next_byte/screens/splash_screen.dart';
+import 'package:next_byte/screens/home/home_screen.dart';
+import 'package:next_byte/screens/home/profile/edit_profile_screen.dart';
+import 'package:next_byte/screens/home/profile/profile_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:next_byte/test.dart';
+import 'package:next_byte/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -40,10 +40,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       builder: EasyLoading.init(),
-      home: const SplashScreen(),
+      //home: const SplashScreen(),
       unknownRoute: GetPage(name: '/404', page: () => const SplashScreen()),
       initialRoute: '/',
       getPages: [
+        GetPage(name: '/',
+          page: () => const SplashScreen(),
+          transition: Transition.zoom,
+        ),
         GetPage(name: '/auth',
             page: () => const LauncherScreen(),
             transition: Transition.zoom,
@@ -62,6 +66,10 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(name: '/profile',
           page: () => const ProfileScreen(),
+          transition: Transition.rightToLeft,
+        ),
+        GetPage(name: '/edit_profile',
+          page: () => const EditProfileScreen(),
           transition: Transition.rightToLeft,
         ),
       ],

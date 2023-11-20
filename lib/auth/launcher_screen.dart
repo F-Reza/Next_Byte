@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:next_byte/auth/login_screen.dart';
-import 'package:next_byte/screens/home_screen.dart';
-import '../auth/firebase_auth.dart';
+import 'firebase_auth.dart';
 
 class LauncherScreen extends StatefulWidget {
   const LauncherScreen({Key? key}) : super(key: key);

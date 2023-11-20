@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
-import 'package:next_byte/screens/launcher_screen.dart';
-import 'package:next_byte/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,15 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () async {
                     final navigator = Navigator.of(context);
                     await Future.delayed(Duration.zero);
-                    Get.to(() => const HomeScreen());
-                  },
-                  child: const Text('Home'),
-                ),
-                PopupMenuItem(
-                  onTap: () async {
-                    final navigator = Navigator.of(context);
-                    await Future.delayed(Duration.zero);
-                    Get.to(() => const ProfileScreen());
+                    //Get.to(() => const ProfileScreen());
+                    Get.toNamed('/profile');
                   },
                   child: const Text('Profile'),
                 ),
@@ -40,9 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () async {
                     final navigator = Navigator.of(context);
                     await Future.delayed(Duration.zero);
+                    //Get.to(() => const HomeScreen());
+                    Get.offAllNamed('/Settings');
+                  },
+                  child: const Text('Settings'),
+                ),
+                PopupMenuItem(
+                  onTap: () async {
+                    final navigator = Navigator.of(context);
+                    await Future.delayed(Duration.zero);
 
                     AuthService.logout().then((value) =>
-                      Get.to(() => const LauncherScreen()),
+                        Get.offAllNamed('/auth'),
                     );
                   },
                   child: const Text('Logout'),

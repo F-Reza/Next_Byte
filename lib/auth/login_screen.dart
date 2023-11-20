@@ -9,7 +9,6 @@ import 'package:next_byte/auth/firebase_auth.dart';
 import 'package:next_byte/auth/signup_screen.dart';
 import 'package:next_byte/controller/auth_controller.dart';
 import 'package:next_byte/models/user_model.dart';
-import 'package:next_byte/screens/launcher_screen.dart';
 import 'package:next_byte/utils/constants.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:hive/hive.dart';
@@ -327,7 +326,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         await authController.addUser(userModel);
                         EasyLoading.dismiss();
                       }
-                      Get.offAll(() => const LauncherScreen());
+                      //Get.offAll(() => const LauncherScreen());
+                      Get.offAllNamed('/auth');
                     }
                   });
                 },
@@ -463,7 +463,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if(status) {
           if(!mounted) return;
           EasyLoading.dismiss();
-          Get.offAll(() => const LauncherScreen());
+          //Get.offAll(() => const LauncherScreen());
+          Get.offAllNamed('/auth');
+
         }
       }on FirebaseAuthException catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(

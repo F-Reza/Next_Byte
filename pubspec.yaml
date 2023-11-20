@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_launcher_icons:
   simple_circular_progress_bar:
+  flutter_easyloading:
+  fluttertoast:
   get:
   intl:
   firebase_core:
@@ -22,17 +25,15 @@ dependencies:
   http:
   url_launcher:
   google_sign_in:
-  flutter_easyloading:
-  fluttertoast:
+  image_picker:
   hive:
   hive_flutter:
   #carousel_slider:
   #shared_preferences:
-  image_picker:
   #intl_phone_number_input:
   #pinput:
   #pin_code_fields:
-  flutter_launcher_icons:
+
 
 
 dev_dependencies:
