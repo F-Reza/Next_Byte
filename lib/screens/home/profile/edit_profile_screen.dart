@@ -60,214 +60,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: Container(
         margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
-        /*child:  FutureBuilder(
-          future: authController.getUserById2(AuthService.user!.uid),
-          builder: (context, snapshot) {
-            //print('--------->    ${snapshot.data?.data()}');
-            if (snapshot.hasError) {
-              return const Center(child: Text('Firebase load fail'));
-            }
-            if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-              final userModel = UserModel.fromMap(snapshot.data!.data()!);
-              print('---------> Your Email:   ${userModel.email}');
-              return ListView(
-                children: [
-                  Column(
-                    children: [
-                      const SizedBox(height: 10,),
-                      Card(
-                        color: Colors.white70,
-                        elevation: 10,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: size!.width,
-                              height: 240,
-                              //decoration: const BoxDecoration(color: Colors.grey),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: userModel.image == null ?
-                              Image.asset('images/male.png',
-                                width: 200, height: 200, fit: BoxFit.cover,) :
-                              Image.network(userModel.image!,
-                                width: 200, height: 200, fit: BoxFit.cover,),
-                            ),
-                            Positioned(
-                              bottom: 40,
-                              right: 100,
-                              child: IconButton(
-                                  onPressed: _getImage,
-                                  icon: const Icon(Icons.add_a_photo,size: 40,color: Colors.white,)),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //const SizedBox(height: 10,),
-                      Card(
-                        color: Colors.white,
-                        elevation: 10,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                    title: Text(userModel.email,style: const TextStyle(color: Colors.black),),
-                                    trailing: AuthService.user!.emailVerified ?
-                                    const Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text('Verified', style: TextStyle(color: Colors.green),),
-                                        SizedBox(width: 5,),
-                                        Icon(Icons.verified_user, color: Colors.green,),
-                                      ],
-                                    ) :
-                                    TextButton(
-                                      onPressed: () {
-                                        verifyEmail();
-                                      },
-                                      child: const Text('Verify'),
-                                    )
-                                ),
-                                ListTile(
-                                  title: Text(userModel.name == null ||  userModel.name!.isEmpty ?
-                                  'No display name added' : userModel.name!,
-                                    style: userModel.name == null ||  userModel.name!.isEmpty ?
-                                    const TextStyle(color: Colors.grey,fontSize: 14) :
-                                    const TextStyle(color: Colors.black,),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.edit,color: Colors.blueAccent,),
-                                    onPressed: (){
-                                      showInputDialog(
-                                          title: 'Display Name',
-                                          value: userModel.name,
-                                          onSaved: (value) async {
-                                            authController.updateProfile(
-                                                AuthService.user!.uid,
-                                                {'name' : value});
-                                            await AuthService.updateDisplayName(value);
-                                          });
-                                    },
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text(userModel.mobile == null ||  userModel.mobile!.isEmpty ?
-                                  'No mobile number added' : 'Mobile: ${userModel.mobile!}',
-                                    style: userModel.mobile == null ||  userModel.mobile!.isEmpty ?
-                                    const TextStyle(color: Colors.grey,fontSize: 14) :
-                                    const TextStyle(color: Colors.black,),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.edit,color: Colors.blueAccent,),
-                                    onPressed: (){
-                                      showInputDialog(
-                                          title: 'Mobile Number',
-                                          value: userModel.mobile,
-                                          onSaved: (value) {
-                                            authController.updateProfile(
-                                                AuthService.user!.uid,
-                                                {'mobile' : value});
-                                          });
-                                    },
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text(userModel.dob == null ||  userModel.dob!.isEmpty ?
-                                  'No Date of birth added' : 'Date of birth: ${userModel.dob!}',
-                                    style: userModel.dob == null ||  userModel.dob!.isEmpty ?
-                                    const TextStyle(color: Colors.grey,fontSize: 14) :
-                                    const TextStyle(color: Colors.black,),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.edit,color: Colors.blueAccent,),
-                                    onPressed: (){
-                                      showInputDialog(
-                                          title: 'Date of birth',
-                                          value: userModel.dob,
-                                          onSaved: (value) {
-                                            authController.updateProfile(
-                                                AuthService.user!.uid,
-                                                {'dob' : value});
-                                          });
-                                    },
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text(userModel.gender == null ||  userModel.gender!.isEmpty ?
-                                  'No gender added' : 'Gender: ${userModel.gender!}',
-                                    style: userModel.gender == null ||  userModel.gender!.isEmpty ?
-                                    const TextStyle(color: Colors.grey,fontSize: 14) :
-                                    const TextStyle(color: Colors.black,),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.edit,color: Colors.blueAccent,),
-                                    onPressed: (){
-                                      showInputDialog(
-                                          title: 'Gender',
-                                          value: userModel.gender,
-                                          onSaved: (value) {
-                                            authController.updateProfile(
-                                                AuthService.user!.uid,
-                                                {'gender' : value});
-                                          });
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(height: 50,),
-                                SizedBox(
-                                  height: 36,
-                                  child: Form(
-                                    //key: _formKey,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        showInputDialogPass(
-                                            title: 'New Password ',
-                                            onSaved: (value) async {
-                                              EasyLoading.show(status: 'Please Wait....',dismissOnTap: false);
-                                              try {
-                                                await AuthService.changePassword(value);
-                                                EasyLoading.dismiss();
-                                                //FirebaseAuth.instance.signOut();
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(
-                                                    backgroundColor: Colors.green,
-                                                    content: Text(
-                                                      'Your Password has been Changed.',
-                                                      style: TextStyle(fontSize: 18.0),
-                                                    ),
-                                                  ),
-                                                );
-                                              } catch (e) {
-                                                EasyLoading.dismiss();
-                                                print('Request Failed!. Please Try Again...');
-                                                showMessage(context, 'Request Failed!. Please Try Again...');
-                                              }
-                                            }
-                                        );
-                                      },
-                                      child: const Text('Change Password'),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 20,),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),*/
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: authController.getUserById(AuthService.user!.uid),
           builder: (context, snapshot) {
@@ -298,8 +90,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 width: 200, height: 200, fit: BoxFit.cover,),
                             ),
                             Positioned(
-                              bottom: 40,
-                              right: 100,
+                              bottom: 35,
+                              right: 80,
                               child: IconButton(
                                   onPressed: _getImage,
                                   icon: const Icon(Icons.add_a_photo,size: 40,)),
@@ -336,7 +128,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       onPressed: () {
                                         verifyEmail();
                                       },
-                                      child: const Text('Verify'),
+                                      child: const Text('-> Verify', style: TextStyle(color: Colors.blueAccent),),
                                     )
                                 ),
                                 ListTile(
@@ -428,7 +220,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 SizedBox(
                                   height: 36,
                                   child: Form(
-                                    //key: _formKey,
                                     child: ElevatedButton(
                                       onPressed: () {
                                         showInputDialogPass(

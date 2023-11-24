@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:next_byte/screens/launcher_screen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -8,18 +8,41 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+
+  double width = 100;
+  double height = 100;
+  bool isExpanded = false;
+  Color color = Colors.blue;
+  double radius = 0;
+  double degree = 0;
+  late AnimationController controller;
+  late Animation<double> turns;
+  late Animation<double> deg;
+
 
   @override
   void initState() {
     super.initState();
 
     // Simulate a delay before navigating to the main screen
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Navigate to the main screen
       //Get.off(() => const LauncherScreen());
       Get.offNamed('/auth');
     });
+
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    );
+
+    turns = CurvedAnimation(parent: controller, curve: Curves.linear);
+    deg = Tween(begin: 0.0, end: 45.0).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutCubic),
+    );
+
   }
 
   @override
@@ -51,4 +74,8 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+}
+
+extension on num {
+  toRad() => this * 0.01745329;
 }

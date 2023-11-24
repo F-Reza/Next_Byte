@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
+import 'package:next_byte/screens/home/following/followings_video_screen.dart';
+import 'package:next_byte/screens/home/for_you/for_you_video_screen.dart';
+import 'package:next_byte/screens/home/profile/profile_screen.dart';
+import 'package:next_byte/screens/home/search/search_screen.dart';
+import 'package:next_byte/screens/home/upload_video/custom_add_icon.dart';
+import 'package:next_byte/screens/home/upload_video/upload_video_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,12 +16,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  int screenIndex = 0;
+  List screenList = [
+    const ForYouVideoScreen(),
+    const SearchScreen(),
+    const UploadVideoScreen(),
+    const FollowingsVideoScreen(),
+    const ProfileScreen(),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome to Home'),
-        actions: [
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           PopupMenuButton(
               itemBuilder: (context) => [
                 PopupMenuItem(
@@ -51,6 +69,43 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white12,
+        currentIndex: screenIndex,
+        onTap: (index) {
+          setState(() {
+            screenIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 30,),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search, size: 30,),
+            label: 'Discover',
+          ),
+
+          BottomNavigationBarItem(
+            icon: CustomAddIcon(),
+            label: '',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inbox_sharp, size: 30,),
+            label: 'Following',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, size: 30,),
+            label: 'Me',
+          ),
+        ],
+      ),
+      body: screenList[screenIndex],
     );
   }
 }

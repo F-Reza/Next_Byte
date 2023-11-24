@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
-  static const String routeName = '/reset_password';
   const ResetPassword({Key? key}) : super(key: key);
 
   @override
