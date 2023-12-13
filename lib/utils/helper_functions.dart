@@ -8,3 +8,5 @@ showMessage(BuildContext context, String msg) {
 
 String getFormattedDateTime(DateTime dateTime, String format) =>
     DateFormat(format).format(dateTime);
+
+bool showProgressBar = false;

@@ -26,6 +26,8 @@ dependencies:
   url_launcher:
   google_sign_in:
   image_picker:
+  video_player:
+  video_compress:
   hive:
   hive_flutter:
   #carousel_slider:
