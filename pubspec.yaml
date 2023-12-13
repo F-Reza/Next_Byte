@@ -70,6 +70,7 @@ flutter:
   assets:
     - assets/images/
     - assets/logos/
+    - assets/videos/
 
   fonts:
     - family: OpenSans

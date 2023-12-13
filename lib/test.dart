@@ -30,9 +30,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     //controller.repeat(reverse: true);
     controller.repeat();
     controller.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
     super.initState();
   }

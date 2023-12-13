@@ -66,6 +66,4 @@ flutter {
     source '../..'
 }
 
-dependencies {
-    implementation 'com.otaliastudios:transcoder:0.10.5'
-}
+dependencies {}

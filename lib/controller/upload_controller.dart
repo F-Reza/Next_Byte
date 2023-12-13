@@ -11,7 +11,6 @@ import 'package:video_compress/video_compress.dart';
 import '../models/upload_video_model.dart';
 
 class UploadController extends GetxController {
-  static UploadController instanceAuth = Get.find();
 
   compressVideoFile(String videoFile) async {
     final compressVideoFilePath = await VideoCompress.compressVideo(videoFile, quality: VideoQuality.MediumQuality);
