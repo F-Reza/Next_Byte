@@ -7,13 +7,13 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:next_byte/auth/launcher_screen.dart';
 import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/auth/signup_screen.dart';
-import 'package:next_byte/controller/auth_controller.dart';
-import 'package:next_byte/screens/home/home_screen.dart';
-import 'package:next_byte/screens/home/profile/edit_profile_screen.dart';
-import 'package:next_byte/screens/home/profile/profile_screen.dart';
+import 'package:next_byte/controllers/auth_controller.dart';
+import 'package:next_byte/views/home/home_screen.dart';
+import 'package:next_byte/views/home/profile/edit_profile_screen.dart';
+import 'package:next_byte/views/home/profile/profile_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:next_byte/screens/splash_screen.dart';
+import 'package:next_byte/views/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {

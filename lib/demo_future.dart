@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/controllers/auth_controller.dart';
 import 'package:next_byte/models/model_class.dart';
 import 'auth/firebase_auth.dart';
 import 'models/user_model.dart';

@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:next_byte/screens/home/home_screen.dart';
+import 'package:next_byte/views/home/home_screen.dart';
 import 'package:video_compress/video_compress.dart';
 
 import '../models/upload_video_model.dart';

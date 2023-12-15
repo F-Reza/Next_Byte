@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
-import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/controllers/auth_controller.dart';
 import 'package:next_byte/models/user_model.dart';
 import 'package:next_byte/utils/helper_functions.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';

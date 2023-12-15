@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:next_byte/controller/auth_controller.dart';
+import 'package:next_byte/controllers/auth_controller.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import '../../../auth/firebase_auth.dart';
 import '../../../models/user_model.dart';

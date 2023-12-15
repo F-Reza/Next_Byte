@@ -6,8 +6,7 @@ import 'package:next_byte/utils/constants.dart';
 import 'package:next_byte/utils/helper_functions.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:video_player/video_player.dart';
-
-import '../../../controller/upload_controller.dart';
+import '../../../controllers/upload_controller.dart';
 
 class UploadForm extends StatefulWidget {
   final File videoFile;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
-import 'package:next_byte/screens/home/following/followings_video_screen.dart';
-import 'package:next_byte/screens/home/for_you/for_you_video_screen.dart';
-import 'package:next_byte/screens/home/profile/profile_screen.dart';
-import 'package:next_byte/screens/home/search/search_screen.dart';
-import 'package:next_byte/screens/home/upload_video/custom_add_icon.dart';
-import 'package:next_byte/screens/home/upload_video/upload_video_screen.dart';
+import 'package:next_byte/views/home/following/followings_video_screen.dart';
+import 'package:next_byte/views/home/for_you/for_you_video_screen.dart';
+import 'package:next_byte/views/home/profile/profile_screen.dart';
+import 'package:next_byte/views/home/search/search_screen.dart';
+import 'package:next_byte/views/home/upload_video/custom_add_icon.dart';
+import 'package:next_byte/views/home/upload_video/upload_video_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
