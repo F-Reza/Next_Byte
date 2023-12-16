@@ -5,7 +5,7 @@ class CommentModel {
   String comment;
   final datePublished;
   List likes;
-  String profilePhoto;
+  String userProfileImage;
   String uid;
   String id;
 
@@ -14,7 +14,7 @@ class CommentModel {
     required this.comment,
     required this.datePublished,
     required this.likes,
-    required this.profilePhoto,
+    required this.userProfileImage,
     required this.uid,
     required this.id,
   });
@@ -24,7 +24,7 @@ class CommentModel {
         'comment': comment,
         'datePublished': datePublished,
         'likes': likes,
-        'profilePhoto': profilePhoto,
+        'userProfileImage': userProfileImage,
         'uid': uid,
         'id': id,
       };
@@ -36,7 +36,7 @@ class CommentModel {
       comment: snapshot['comment'],
       datePublished: snapshot['datePublished'],
       likes: snapshot['likes'],
-      profilePhoto: snapshot['profilePhoto'],
+      userProfileImage: snapshot['userProfileImage'],
       uid: snapshot['uid'],
       id: snapshot['id'],
     );

@@ -177,13 +177,14 @@ class ForYouVideoScreen extends StatelessWidget {
                             ),
                             Container(
                               width: 100,
-                              margin: EdgeInsets.only(top: size.height / 3.5),
+                              margin: EdgeInsets.only(top: size.height / 4),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   buildProfile(
                                     data.userProfileImage.toString(),
                                   ),
+                                  const SizedBox(height: 2,),
                                   Column(
                                     children: [
                                       InkWell(
@@ -192,7 +193,7 @@ class ForYouVideoScreen extends StatelessWidget {
                                           Icons.favorite,
                                           size: 40,
                                           color: data.likesList!.contains(AuthService.user!.uid)
-                                              ? Colors.pink
+                                              ? Colors.blueAccent
                                               : Colors.white,
                                         ),
                                       ),
@@ -211,13 +212,13 @@ class ForYouVideoScreen extends StatelessWidget {
                                         onTap: () => Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) => CommentScreen(
-                                              userID: data.videoID.toString(),
+                                              videoID: data.videoID.toString(),
                                             ),
                                           ),
                                         ),
                                         child: const Icon(
                                           Icons.comment,
-                                          size: 40,
+                                          size: 35,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -236,7 +237,7 @@ class ForYouVideoScreen extends StatelessWidget {
                                         onTap: () {},
                                         child: const Icon(
                                           Icons.reply,
-                                          size: 40,
+                                          size: 35,
                                           color: Colors.white,
                                         ),
                                       ),

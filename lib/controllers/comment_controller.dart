@@ -9,7 +9,7 @@ class CommentController extends GetxController {
   final Rx<List<CommentModel>> _comments = Rx<List<CommentModel>>([]);
   List<CommentModel> get comments => _comments.value;
 
-  String _postId = "";
+  String _postId = '';
 
   updatePostId(String id) {
     _postId = id;
@@ -36,13 +36,15 @@ class CommentController extends GetxController {
   }
 
   postComment(String commentText) async {
-    print('----> $commentText');
+    print('----> vID: $_postId');
+    print('----> Cmt: $commentText');
     try {
       if (commentText.isNotEmpty) {
         DocumentSnapshot userDoc = await firestore
             .collection('Users')
             .doc(AuthService.user!.uid)
             .get();
+
         var allDocs = await firestore
             .collection('Videos')
             .doc(_postId)
@@ -51,14 +53,16 @@ class CommentController extends GetxController {
         int len = allDocs.docs.length;
 
         CommentModel comment = CommentModel(
-          userName: (userDoc.data()! as dynamic)['userName'],
+          userName: (userDoc.data()! as dynamic)['name'],
           comment: commentText.trim(),
           datePublished: DateTime.now(),
           likes: [],
-          profilePhoto: (userDoc.data()! as dynamic)['userProfileImage'],
+          userProfileImage: (userDoc.data()! as dynamic)['image'],
           uid: AuthService.user!.uid,
           id: 'Comment_$len',
         );
+        print('---> Data: ${comment.toString()}');
+
         await firestore
             .collection('Videos')
             .doc(_postId)
@@ -83,28 +87,28 @@ class CommentController extends GetxController {
   }
 
   likeComment(String id) async {
-    var uid = authController.user.uid;
+    var uid = AuthService.user!.uid;
     DocumentSnapshot doc = await firestore
-        .collection('videos')
+        .collection('Videos')
         .doc(_postId)
-        .collection('comments')
+        .collection('Comments')
         .doc(id)
         .get();
 
     if ((doc.data()! as dynamic)['likes'].contains(uid)) {
       await firestore
-          .collection('videos')
+          .collection('Videos')
           .doc(_postId)
-          .collection('comments')
+          .collection('Comments')
           .doc(id)
           .update({
         'likes': FieldValue.arrayRemove([uid]),
       });
     } else {
       await firestore
-          .collection('videos')
+          .collection('Videos')
           .doc(_postId)
-          .collection('comments')
+          .collection('Comments')
           .doc(id)
           .update({
         'likes': FieldValue.arrayUnion([uid]),
