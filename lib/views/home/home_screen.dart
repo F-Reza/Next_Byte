@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/auth/firebase_auth.dart';
-import 'package:next_byte/views/home/following/followings_video_screen.dart';
-import 'package:next_byte/views/home/for_you/for_you_video_screen.dart';
-import 'package:next_byte/views/home/profile/profile_screen.dart';
-import 'package:next_byte/views/home/search/search_screen.dart';
-import 'package:next_byte/views/home/upload_video/custom_add_icon.dart';
-import 'package:next_byte/views/home/upload_video/upload_video_screen.dart';
+
+import '../following/followings_video_screen.dart';
+import '../profile/profile_screen.dart';
+import '../search/search_screen.dart';
+import '../upload_video/custom_add_icon.dart';
+import '../upload_video/upload_video_screen.dart';
+import 'for_you/for_you_video_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int screenIndex = 0;
   List screenList = [
-    const ForYouVideoScreen(),
+    ForYouVideoScreen(),
     const SearchScreen(),
     const UploadVideoScreen(),
     const FollowingsVideoScreen(),

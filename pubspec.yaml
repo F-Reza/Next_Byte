@@ -28,6 +28,7 @@ dependencies:
   image_picker:
   video_player:
   video_compress:
+  timeago:
   hive:
   hive_flutter:
   #carousel_slider:

@@ -6,6 +6,8 @@ import '../models/user_model.dart';
 
 class DbHelper {
   static const String collectionUser = 'Users';
+  static const String collectionVideos = 'Videos';
+  static const String collectionVideo= 'Video';
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
 
@@ -27,6 +29,13 @@ class DbHelper {
   static Future<DocumentSnapshot<Map<String, dynamic>>> getUserById2(String uid) =>
       _db.collection(collectionUser).doc(uid).get();
 
+  //Get All Videos
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllVideos() =>
+      _db.collection(collectionVideos).snapshots();
+
+  //Get VideoById
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getVideoById(String id) =>
+      _db.collection(collectionVideo).doc(id).snapshots();
 
   //Update Profile
   static Future<void> updateProfile(String uid, Map<String, dynamic> map) {

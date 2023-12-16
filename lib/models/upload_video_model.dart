@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class VideoUploadModel {
   String? userID;
   String? userName;
@@ -57,6 +59,25 @@ class VideoUploadModel {
     totalShares: map['totalShares'],
     publishedDateTime: map['publishedDateTime'],
   );
+
+  static VideoUploadModel fromSnap(DocumentSnapshot snap) {
+    var map = snap.data() as Map<String, dynamic>;
+
+    return VideoUploadModel(
+      userID: map['userID'],
+      userName: map['userName'],
+      userProfileImage: map['userProfileImage'],
+      videoID: map['videoID'],
+      artistSongName: map['artistSongName'],
+      descriptionTags: map['descriptionTags'],
+      videoUrl: map['videoUrl'],
+      thumbnailUrl: map['thumbnailUrl'],
+      likesList: map['likesList'],
+      totalComments: map['totalComments'],
+      totalShares: map['totalShares'],
+      publishedDateTime: map['publishedDateTime'],
+    );
+  }
 
 
 }

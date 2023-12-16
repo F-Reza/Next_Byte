@@ -9,12 +9,13 @@ import 'package:next_byte/auth/login_screen.dart';
 import 'package:next_byte/auth/signup_screen.dart';
 import 'package:next_byte/controllers/auth_controller.dart';
 import 'package:next_byte/views/home/home_screen.dart';
-import 'package:next_byte/views/home/profile/edit_profile_screen.dart';
-import 'package:next_byte/views/home/profile/profile_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:next_byte/views/splash_screen.dart';
 import 'firebase_options.dart';
+import 'views/comments/comment_screen.dart';
+import 'views/profile/edit_profile_screen.dart';
+import 'views/profile/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

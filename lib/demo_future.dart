@@ -24,7 +24,7 @@ class _ProfileScreenDemoState extends State<ProfileScreenDemo> {
   Size? size;
   var authController = AuthController.instanceAuth;
   String? _genderGroupValue;
-  final textController =TextEditingController();
+  final textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
 
