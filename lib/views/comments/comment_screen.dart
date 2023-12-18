@@ -21,7 +21,7 @@ class CommentScreen extends StatelessWidget {
     commentController.updatePostId(videoID);
 
     return Scaffold(
-      backgroundColor: Colors.white24,
+      backgroundColor: Colors.black12,
       body: SingleChildScrollView(
         child: SizedBox(
           width: size.width,
@@ -36,10 +36,10 @@ class CommentScreen extends StatelessWidget {
                         final comment = commentController.comments[index];
                         return Card(
                           elevation: 1,
-                          color: Colors.white24,
+                          color: Colors.black38,
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: Colors.lightGreen,
+                              backgroundColor: Colors.white10,
                               backgroundImage: NetworkImage(comment.userProfileImage),
                             ),
                             title: Row(
@@ -134,8 +134,10 @@ class CommentScreen extends StatelessWidget {
                   ),
                 ),
                 trailing: TextButton(
-                  onPressed: () =>
-                      commentController.postComment(_commentController.text),
+                  onPressed: () {
+                    commentController.postComment(_commentController.text);
+                    _commentController.clear();
+                  },
                   child: const Text(
                     'Send',
                     style: TextStyle(

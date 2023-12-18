@@ -62,6 +62,24 @@ class UserModel {
   );
 
 
+  static UserModel fromSnap(DocumentSnapshot snap) {
+    var map = snap.data() as Map<String, dynamic>;
+    return UserModel(
+      uid: map['uid'],
+      image: map['image'],
+      name: map['name'],
+      email: map['email'],
+      mobile: map['mobile'],
+      dob: map['dob'],
+      gender: map['gender'],
+      facebook: map['facebook'],
+      instagram: map['instagram'],
+      youtube: map['youtube'],
+      deviceToken: map['deviceToken'],
+      userCreationTime: map['userCreationTime'],
+    );
+  }
+
 
 
 }

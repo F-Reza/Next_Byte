@@ -76,6 +76,11 @@ class CommentController extends GetxController {
         await firestore.collection('Videos').doc(_postId).update({
           'totalComments': (doc.data()! as dynamic)['totalComments'] + 1,
         });
+
+        Get.snackbar(
+          'Successfully',
+          'you commented this video',
+        );
       }
     } catch (e) {
       print('-----> Error $e');

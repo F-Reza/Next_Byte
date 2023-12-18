@@ -193,7 +193,7 @@ class ForYouVideoScreen extends StatelessWidget {
                                           Icons.favorite,
                                           size: 40,
                                           color: data.likesList!.contains(AuthService.user!.uid)
-                                              ? Colors.blueAccent
+                                              ? Colors.pink
                                               : Colors.white,
                                         ),
                                       ),
