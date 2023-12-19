@@ -6,18 +6,18 @@ import 'package:next_byte/auth/firebase_auth.dart';
 import 'package:next_byte/utils/constants.dart';
 import '../../controllers/profile_controller.dart';
 
-class ProfileScreen extends StatefulWidget {
+class UserProfileScreen extends StatefulWidget {
   final String uid;
-  const ProfileScreen({
+  const UserProfileScreen({
     Key? key,
     required this.uid,
   }) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _UserProfileScreenState extends State<UserProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
 
   @override
@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ClipOval(
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
-                                  imageUrl: controller.user['profilePhoto'],
+                                  imageUrl: controller.user['userProfileImage'],
                                   height: 100,
                                   width: 100,
                                   placeholder: (context, url) =>
@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.user['thumbnails'].length,
+                            itemCount: controller.user['thumbnailUrl'].length,
                             gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -207,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             itemBuilder: (context, index) {
                               String thumbnail =
-                              controller.user['thumbnails'][index];
+                              controller.user['thumbnailUrl'][index];
                               return CachedNetworkImage(
                                 imageUrl: thumbnail,
                                 fit: BoxFit.cover,

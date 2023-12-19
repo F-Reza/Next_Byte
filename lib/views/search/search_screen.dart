@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:next_byte/controllers/search_controller.dart';
 import 'package:next_byte/models/user_model.dart';
-import 'package:next_byte/views/profile/profile_screen.dart';
+import 'user_profile_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class SearchScreen extends StatelessWidget {
                 return InkWell(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ProfileScreen(),
+                      builder: (context) => UserProfileScreen(uid: user.uid),
                     ),
                   ),
                   child: ListTile(
