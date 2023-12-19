@@ -29,6 +29,7 @@ dependencies:
   video_player:
   video_compress:
   timeago:
+  cached_network_image:
   hive:
   hive_flutter:
   #carousel_slider:
