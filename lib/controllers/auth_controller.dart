@@ -20,7 +20,7 @@ class AuthController extends GetxController {
   User get user => _user.value!;
   File? get profilePhoto => _pickedImage.value;
 
-  /*@override
+  @override
   void onReady() {
     super.onReady();
     _user = Rx<User?>(firebaseAuth.currentUser);
@@ -34,7 +34,7 @@ class AuthController extends GetxController {
     } else {
       //Get.offAll(() => const HomeScreen());
     }
-  }*/
+  }
 
 
   void getImageFromGallery() async {

@@ -9,7 +9,6 @@ import '../../../models/user_model.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  static const String routeName = '/profile';
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
